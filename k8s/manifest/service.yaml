@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: goweb
+  name: goweb-svc
+spec:
+  selector:
+    app.kubernetes.io/name: gowebapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
