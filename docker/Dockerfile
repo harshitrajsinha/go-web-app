@@ -18,7 +18,7 @@ RUN go build -o main ./main.go
 
 FROM alpine:3.22
 
-# RUN addgroup -S srvgrp && adduser -S srvusr -G srvgrp 
+RUN addgroup -S srvgrp && adduser -S srvusr -G srvgrp 
 
 WORKDIR /server
 
@@ -27,6 +27,6 @@ COPY --from=builder /app/static ./static
 
 EXPOSE 8080
 
-# USER srvusr
+USER srvusr
 
 ENTRYPOINT ["./main"]
