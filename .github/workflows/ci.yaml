@@ -84,7 +84,8 @@ jobs:
           args: >
             "-Dsonar.projectName=go-web-app"
             -Dsonar.projectKey=go-web-app
-            -Dsonar.sources=/
+            -Dsonar.projectBaseDir=/
+            -Dsonar.sources=.
   
   unit-test:
     needs: [security-scan]
@@ -109,6 +110,10 @@ jobs:
     needs: [security-scan]
     runs-on: ubuntu-latest
 
+    env:
+      IMAGE_NAME: harshitrajsinha/go-web-app:v1
+      IMAGE_TAG: ${{ github.sha }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6.0.2
@@ -129,3 +134,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v7.2.0
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG}}
