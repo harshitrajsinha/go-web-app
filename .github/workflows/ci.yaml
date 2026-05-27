@@ -111,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: harshitrajsinha/go-web-app:v1
+      IMAGE_NAME: harshitrajsinha/go-web-app
       IMAGE_TAG: ${{ github.sha }}
 
     steps:
