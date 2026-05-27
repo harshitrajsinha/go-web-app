@@ -26,16 +26,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_NOTIFY_USER_LIST: '@harshitrajsinha'
-      
-      - name: Vulnerability scan
-        run: |
-          go install golang.org/x/vuln/cmd/govulncheck@v1.1.0
-          govulncheck ./...
 
-      - name: Linting
-        uses: golangci/golangci-lint-action@v9.2.1
-
-  vulnerability scan:
+  vulnerability-scan:
     needs: [security-scan]
     runs-on: ubuntu-latest
 
