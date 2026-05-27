@@ -82,7 +82,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           args: >
             "-Dsonar.projectName=go-web-app"
-            -Dsonar.projectKey=go-web-app
+            -Dsonar.projectKey='go-web-app'
             -Dsonar.sources=/
             -Dsonar.tests=tests/
   
@@ -99,7 +99,11 @@ jobs:
         with:
           go-version: '1.22'
       
+      - name: Build app
+        uses: go build -o main ./main.go
+
       - name: Run go test
         run: go test ./...
 
   # image-build-release:
+
