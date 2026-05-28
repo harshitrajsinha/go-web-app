@@ -54,7 +54,26 @@ jobs:
         run: |
           go install golang.org/x/vuln/cmd/govulncheck@v1.1.0
           govulncheck ./...
-        
+          
+  sonarqube:
+    needs: [security-scan]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        if: github.ref == 'refs/heads/main'
+        uses: SonarSource/sonarqube-scan-action@v8.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            "-Dsonar.projectName=go-app"
+            -Dsonar.projectKey=go-app
   unit-test:
     needs: [security-scan]
     runs-on: ubuntu-latest
